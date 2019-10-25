@@ -1,0 +1,40 @@
+class   Triplet:
+    def __init__(self, wt, val, ind):
+        self.wt = wt
+        self.val = val
+        self.ind = ind
+        self.cost = val // wt
+
+    def __lt__(self, other):
+        return self.cost < other.cost
+
+def knap_sack(w,v,c):
+    vw = []
+    for i in range (len(w)):
+        vw.append(Triplet(w[i],v[i],i))
+    vw.sort(reverse = True)
+    answer = 0
+    for i in vw :
+        if c - i.wt >0 :
+            c -= i.wt
+            answer += i.val
+        else:         # add the possible fraction could be added
+            f = c / i.wt
+            answer+= i.val * f
+            c  = c - (f*i.wt)
+            break
+    return answer
+
+
+
+
+
+def main():
+    w = [10, 40, 20, 30]
+    v = [60, 40, 100, 120]
+    capacity = 50
+    k = knap_sack(w,v,capacity)
+    print("the max value is %d"%k)
+
+
+main()
